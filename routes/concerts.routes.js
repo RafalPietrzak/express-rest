@@ -17,8 +17,12 @@ router.route('/concerts/:id').get((req, res) => {
 router.route('/concerts/:id').post((req, res) => {
   db.concerts.push({ 
     id: req.params.id, 
-    author: req.body.author, 
-    text: req.body.text },
+    performer: req.body.performer,
+    genre: req.body.genre,
+    price: req.body.price,
+    day: req.body.day,
+    image: req.body.image 
+  },
 );
   res.send({ message: 'OK' });
 });
@@ -26,8 +30,14 @@ router.route('/concerts/:id').put((req, res) => {
   let status = 'FAILED'
   db.concerts.map(item => {
     if(item.id === req.params.id){
-      item.author = req.body.author;
-      item.text = req.body.text;
+      item = {
+        id: req.params.id,
+        performer: req.body.performer,
+        genre: req.body.genre,
+        price: req.body.price,
+        day: req.body.day,
+        image: req.body.image 
+      };
       status = 'OK';
     }
   });
@@ -36,8 +46,12 @@ router.route('/concerts/:id').put((req, res) => {
 router.route('/concerts').post((req, res) => {
   db.concerts.push({ 
     id: uuidv4(), 
-    author: req.body.author, 
-    text: req.body.text },
+    performer: req.body.performer,
+    genre: req.body.genre,
+    price: req.body.price,
+    day: req.body.day,
+    image: req.body.image 
+  }
 );
   res.send({ message: 'OK' });
 });

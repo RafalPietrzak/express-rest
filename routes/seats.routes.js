@@ -17,8 +17,11 @@ router.route('/seats/:id').get((req, res) => {
 router.route('/seats/:id').post((req, res) => {
   db.seats.push({ 
     id: req.params.id, 
-    author: req.body.author, 
-    text: req.body.text },
+    day: req.body.day, 
+    seat: req.body.seat,
+    client: req.body.client,
+    email: req.body.email
+  },
 );
   res.send({ message: 'OK' });
 });
@@ -26,8 +29,13 @@ router.route('/seats/:id').put((req, res) => {
   let status = 'FAILED'
   db.seats.map(item => {
     if(item.id === req.params.id){
-      item.author = req.body.author;
-      item.text = req.body.text;
+      item = {
+        id: req.params.id, 
+        day: req.body.day, 
+        seat: req.body.seat,
+        client: req.body.client,
+        email: req.body.email
+      }
       status = 'OK';
     }
   });
@@ -36,8 +44,11 @@ router.route('/seats/:id').put((req, res) => {
 router.route('/seats').post((req, res) => {
   db.seats.push({ 
     id: uuidv4(), 
-    author: req.body.author, 
-    text: req.body.text },
+    day: req.body.day, 
+    seat: req.body.seat,
+    client: req.body.client,
+    email: req.body.email
+  },
 );
   res.send({ message: 'OK' });
 });
