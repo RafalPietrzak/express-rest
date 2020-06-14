@@ -2,7 +2,12 @@ const express = require('express');
 const router = express.Router();
 const db = require('./../db/db');
 const { v4: uuidv4 } = require('uuid');
-
+router.route('/seats').all((req, res, next) => {
+  req.parse = {};
+  req.body.seat = parseInt(req.body.seat);
+  req.body.day = parseInt(req.body.day); 
+  return next();
+});
 router.route('/seats').get((req, res) => {
   res.send(db.seats);
 });
@@ -42,15 +47,25 @@ router.route('/seats/:id').put((req, res) => {
   res.send({ message: status });
 });
 router.route('/seats').post((req, res) => {
-  db.seats.push({ 
-    id: uuidv4(), 
-    day: req.body.day, 
-    seat: req.body.seat,
-    client: req.body.client,
-    email: req.body.email
-  },
-);
-  res.send({ message: 'OK' });
+  const isTaken = db.seats.some(item => {
+    if((item.day === req.body.day) && (item.seat === req.body.seat)){
+      return true;
+    }
+    return false;
+  });
+  if(isTaken){
+    res.send({ message: "The slot is already taken..."});
+  } else {
+    db.seats.push({ 
+       id: uuidv4(), 
+       day: req.body.day, 
+       seat: req.body.seat,
+       client: req.body.client,
+       email: req.body.email
+      }
+    );
+    res.send({ message: 'OK' });
+  }
 });
 router.route('/seats/:id').delete((req, res) => {
   db.seats = db.seats.filter((item) => {
