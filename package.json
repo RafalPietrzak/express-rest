@@ -10,6 +10,7 @@
     "uuid": "^8.1.0"
   },
   "scripts": {
-    "watch": "nodemon server.js"
+    "start": "nodemon server.js",
+    "build": "cd client && yarn install && yarn build"
   }
 }
