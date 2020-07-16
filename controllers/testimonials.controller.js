@@ -1,0 +1,1 @@
+const Testimonials = require('../models/testimonials.model');
